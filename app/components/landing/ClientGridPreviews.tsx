@@ -18,7 +18,7 @@ const ClientGridPreviews: React.FC<{ initialGrids: Awaited<ReturnType<typeof get
 
     try {
       const afterParam = grids.length ? `&after=${grids[grids.length - 1].id}` : '';
-      const data = await (await fetch(`/api/grids?limit=${SCROLL_BATCH_SIZE}${afterParam}`)).json();
+      const data = await (await fetch(`/apis/grids?limit=${SCROLL_BATCH_SIZE}${afterParam}`)).json();
 
       // Intentional to not use (prev) => setState([...prev, ...data]) here
       // As the fetch was based on the assumption of a certain snapshot of grids
