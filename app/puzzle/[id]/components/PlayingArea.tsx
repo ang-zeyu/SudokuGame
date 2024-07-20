@@ -2,7 +2,7 @@
 
 import Grid from "@/app/components/Grid";
 import { oneToNine } from "@/app/components/constants";
-import {KeyboardEventHandler, useMemo, useState, useTransition} from "react";
+import {KeyboardEventHandler, useEffect, useMemo, useRef, useState, useTransition} from "react";
 import type {CellCoords, GridData} from "@/app/components/types";
 import ResetButton from "@/app/puzzle/[id]/components/topButtons/ResetButton";
 import NextButton from "@/app/puzzle/[id]/components/topButtons/NextButton";
@@ -10,6 +10,7 @@ import HomeButton from "@/app/puzzle/[id]/components/topButtons/HomeButton";
 import NumberButton from "@/app/puzzle/[id]/components/bottomButtons/NumberButton";
 import EraseButton from "@/app/puzzle/[id]/components/bottomButtons/EraseButton";
 import { cloneGridWoErrors, setGridErrors } from "@/app/puzzle/[id]/components/utils";
+import { enqueueSnackbar, SnackbarProvider } from "notistack";
 
 const PlayingArea: React.FC<{
   initialGrid: GridData;
@@ -38,6 +39,18 @@ const PlayingArea: React.FC<{
   const isCorrect = useMemo(() => {
     return grid.every(row => row.every((cell) => cell.value !== null && !cell.error));
   }, [grid])
+
+  useEffect(() => {
+    if (isCorrect) {
+      enqueueSnackbar({
+        message: 'Congratulations! You solved the puzzle',
+        variant: 'success',
+        key: 'correctMessage',
+        preventDuplicate: true,
+        autoHideDuration: 2000,
+      });
+    }
+  }, [isCorrect])
 
   const isEditableCellSelected = selectedCell ? !grid[selectedCell.row][selectedCell.col].isPredefined : false;
 
@@ -95,7 +108,7 @@ const PlayingArea: React.FC<{
   const onErase = () => setGridValue(null);
   const onNumberButtonClick = (num: number) => setGridValue(num);
 
-  return <>
+  return <SnackbarProvider>
     <header className="flex-1 flex flex-wrap items-center gap-6 mb-8">
       <h2 className="text-4xl font-bold mr-auto">Sudoku</h2>
       <div className="flex flex-wrap gap-2">
@@ -134,7 +147,7 @@ const PlayingArea: React.FC<{
         <EraseButton erasable={isErasable} onClick={onErase} />
       </div>
     </main>
-  </>;
+  </SnackbarProvider>;
 }
 
 export default PlayingArea;
