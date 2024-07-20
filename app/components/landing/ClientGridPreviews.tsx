@@ -7,9 +7,11 @@ import { useCallback, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { SCROLL_BATCH_SIZE } from "@/app/components/landing/constants";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
+import Loading from "@/app/loading";
 
 const ClientGridPreviews: React.FC<{ initialGrids: Awaited<ReturnType<typeof getGrids>> }> = ({ initialGrids }) => {
   const [grids, setGrids] = useState(initialGrids);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const onInView = useCallback(async (inView: boolean) => {
     if (!inView) {
@@ -17,6 +19,7 @@ const ClientGridPreviews: React.FC<{ initialGrids: Awaited<ReturnType<typeof get
     }
 
     try {
+      setIsLoadingMore(true);
       const afterParam = grids.length ? `&after=${grids[grids.length - 1].id}` : '';
       const data = await (await fetch(`/apis/grids?limit=${SCROLL_BATCH_SIZE}${afterParam}`)).json();
 
@@ -31,6 +34,8 @@ const ClientGridPreviews: React.FC<{ initialGrids: Awaited<ReturnType<typeof get
         preventDuplicate: true,
         autoHideDuration: 2000,
       });
+    } finally {
+      setIsLoadingMore(false)
     }
   }, [grids]);
 
@@ -41,16 +46,19 @@ const ClientGridPreviews: React.FC<{ initialGrids: Awaited<ReturnType<typeof get
   });
 
   return <SnackbarProvider>
-    {grids.map((grid, idx) => (
-      <Link
-        key={grid.id}
-        href={`puzzle/${grid.id}`}
-        className="min-w-[200px] w-1/4 py-2 px-3 hover:scale-125 transition-transform font-medium text-base"
-        {...(idx === grids.length - 1 ? { ref } : {})}
-      >
-        <Grid previewMode grid={grid.puzzle} />
-      </Link>
-    ))}
+    <div className="w-full flex-wrap flex gap-10 items-center justify-center">
+      {grids.map((grid, idx) => (
+        <Link
+          key={grid.id}
+          href={`puzzle/${grid.id}`}
+          className="min-w-[200px] w-1/4 py-2 px-3 hover:scale-125 transition-transform font-medium text-base"
+          {...(idx === grids.length - 1 ? {ref} : {})}
+        >
+          <Grid previewMode grid={grid.puzzle}/>
+        </Link>
+      ))}
+    </div>
+    {isLoadingMore && <Loading />}
   </SnackbarProvider>
 }
 
