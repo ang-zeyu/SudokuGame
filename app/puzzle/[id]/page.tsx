@@ -1,6 +1,6 @@
-import { notFound } from "next/navigation";
-import { getCurrentAndNextGrid, getGrids } from "@/api/grids";
-import PlayingArea from "@/app/puzzle/[id]/components/PlayingArea";
+import { notFound } from 'next/navigation';
+import { getCurrentAndNextGrid, getGrids } from '@/api/grids';
+import PlayingArea from '@/app/puzzle/[id]/components/PlayingArea';
 
 /*
  Assumptions
@@ -13,7 +13,7 @@ export async function generateStaticParams() {
   // Limit 3 - just a magic number to simulate if we had 1000s of puzzles and for example prebuilt the 100 most popular ones
   const grids = await getGrids({ limit: 3 });
 
-  return grids.map((grid) => ({ id: grid.id, }))
+  return grids.map((grid) => ({ id: grid.id }));
 }
 
 const Puzzle = async ({ params }: { params: { id: string } }) => {
@@ -29,6 +29,6 @@ const Puzzle = async ({ params }: { params: { id: string } }) => {
       <PlayingArea initialGrid={current.puzzle} nextId={next?.id} />
     </div>
   );
-}
+};
 
 export default Puzzle;

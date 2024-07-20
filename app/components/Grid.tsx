@@ -1,6 +1,6 @@
-import SubGrid from "@/app/components/SubGrid";
-import { zeroToEight } from "@/app/components/constants";
-import type { CellCoords, GridData } from "@/app/components/types";
+import SubGrid from '@/app/components/SubGrid';
+import { zeroToEight } from '@/app/components/constants';
+import type { CellCoords, GridData } from '@/app/components/types';
 
 const Grid: React.FC<{
   loading?: boolean;
@@ -9,14 +9,7 @@ const Grid: React.FC<{
   isCorrect?: boolean;
   onCellClick?: (coords: CellCoords) => void;
   selectedCell?: CellCoords | null;
-}> = ({
-  loading,
-  previewMode,
-  grid,
-  isCorrect,
-  onCellClick,
-  selectedCell,
-}) => {
+}> = ({ loading, previewMode, grid, isCorrect, onCellClick, selectedCell }) => {
   let previewOrEditModeParentStyles = '';
   let previewOrEditModeInnerStyles = '';
 
@@ -31,21 +24,33 @@ const Grid: React.FC<{
     previewOrEditModeInnerStyles += ' opacity-50';
   }
 
-  return <div className={'w-full pt-[100%] relative overflow-hidden' + previewOrEditModeParentStyles}>
-    <div className={'absolute top-0 left-0 w-full h-full grid grid-cols-3 grid-rows-3' + previewOrEditModeInnerStyles}>
-      {
-        zeroToEight.map((subGridNum) => <SubGrid
-          key={subGridNum}
-          previewMode={previewMode}
-          subGridNum={subGridNum}
-          grid={grid}
-          isCorrect={isCorrect}
-          onCellClick={onCellClick}
-          selectedCell={selectedCell}
-        />)
+  return (
+    <div
+      className={
+        'w-full pt-[100%] relative overflow-hidden' +
+        previewOrEditModeParentStyles
       }
+    >
+      <div
+        className={
+          'absolute top-0 left-0 w-full h-full grid grid-cols-3 grid-rows-3' +
+          previewOrEditModeInnerStyles
+        }
+      >
+        {zeroToEight.map((subGridNum) => (
+          <SubGrid
+            key={subGridNum}
+            previewMode={previewMode}
+            subGridNum={subGridNum}
+            grid={grid}
+            isCorrect={isCorrect}
+            onCellClick={onCellClick}
+            selectedCell={selectedCell}
+          />
+        ))}
+      </div>
     </div>
-  </div>;
-}
+  );
+};
 
 export default Grid;
