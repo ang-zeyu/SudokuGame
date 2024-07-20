@@ -7,6 +7,7 @@ Available at: https://sudoku-game-ang-zeyus-projects.vercel.app/
 - Next.js (App Router)
 - [Supabase](https://supabase.com/)
 - Tailwind CSS
+- Vercel
 
 ## Features
 
