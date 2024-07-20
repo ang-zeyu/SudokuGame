@@ -2,7 +2,7 @@
 
 import Grid from "@/app/puzzle/[id]/components/Grid";
 import { oneToNine } from "@/app/puzzle/[id]/components/constants";
-import {KeyboardEventHandler, useMemo, useState} from "react";
+import {KeyboardEventHandler, useMemo, useState, useTransition} from "react";
 import type {CellCoords, GridData} from "@/app/puzzle/[id]/components/types";
 import ResetButton from "@/app/puzzle/[id]/components/topButtons/ResetButton";
 import NextButton from "@/app/puzzle/[id]/components/topButtons/NextButton";
@@ -10,6 +10,7 @@ import HomeButton from "@/app/puzzle/[id]/components/topButtons/HomeButton";
 import NumberButton from "@/app/puzzle/[id]/components/bottomButtons/NumberButton";
 import EraseButton from "@/app/puzzle/[id]/components/bottomButtons/EraseButton";
 import { cloneGridWoErrors, setGridErrors } from "@/app/puzzle/[id]/components/utils";
+import {useRouter} from "next/navigation";
 
 const PlayingArea: React.FC<{
   initialGrid: GridData;
@@ -17,6 +18,7 @@ const PlayingArea: React.FC<{
 }> = ({ initialGrid, nextId }) => {
   const [selectedCell, setSelectedCell] = useState<CellCoords | null>(null);
   const [grid, setGrid] = useState<GridData>(initialGrid);
+  const [isLoadingNext, startLoadingNextTransition] = useTransition();
 
   const setGridValue = (num: number | null) => setGrid((oldGrid) => {
     if (!oldGrid || !selectedCell || oldGrid[selectedCell.row][selectedCell.col].isPredefined) {
@@ -98,8 +100,12 @@ const PlayingArea: React.FC<{
     <header className="flex-1 flex flex-wrap items-center gap-6 mb-8">
       <h2 className="text-4xl font-bold mr-auto">Sudoku</h2>
       <div className="flex flex-wrap gap-2">
-        <ResetButton onClick={onReset}/>
-        {nextId && <NextButton nextId={nextId}/>}
+        <ResetButton onClick={onReset} disabled={isLoadingNext} />
+        {nextId && <NextButton
+          nextId={nextId}
+          disabled={isLoadingNext}
+          startLoadingNextTransition={startLoadingNextTransition}
+        />}
         <HomeButton/>
       </div>
     </header>
@@ -107,6 +113,7 @@ const PlayingArea: React.FC<{
     <main>
       <div onKeyDown={onKeyDown} tabIndex={0}>
         <Grid
+          loading={isLoadingNext}
           grid={grid}
           isCorrect={isCorrect}
           onCellClick={setSelectedCell}

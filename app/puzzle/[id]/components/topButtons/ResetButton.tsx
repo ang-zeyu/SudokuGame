@@ -1,9 +1,13 @@
 'use client'
 
-const ResetButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
+const ResetButton: React.FC<{
+  onClick: () => void;
+  disabled: boolean;
+}> = ({ onClick, disabled }) => {
   return <button
-    className="rounded-full border border-gray-300 py-1 px-3 text-red-500 flex items-center bg-white active:bg-gray-200 hover:bg-gray-200 font-medium text-base transition-colors"
+    className="rounded-full border border-gray-300 py-1 px-3 text-red-500 disabled:text-gray-500 flex items-center bg-white active:bg-gray-200 hover:bg-gray-200 disabled:bg-gray-50 font-medium text-base transition-colors"
     onClick={onClick}
+    disabled={disabled}
   >
     <svg className="h-4 w-4 mr-1.5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
