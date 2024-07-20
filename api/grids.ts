@@ -17,7 +17,7 @@ function rawPuzzleToGrid(puzzle: string) {
   return gridData;
 }
 
-export async function getGrids({ gteId, limit }: { gteId?: string, limit?: number } = {}): Promise<{
+export async function getGrids({ gtId, gteId, limit }: { gtId?: string; gteId?: string, limit?: number } = {}): Promise<{
   id: string;
   puzzle: GridData;
 }[]> {
@@ -25,7 +25,8 @@ export async function getGrids({ gteId, limit }: { gteId?: string, limit?: numbe
 
   let query = supabase.from("sudoku_puzzles").select().order('id', { ascending: true });
   if (limit !== undefined) query = query.limit(limit)
-  if (gteId !== undefined) query = query.gte('id', gteId)
+  if (gtId !== undefined) query = query.gt('id', gtId)
+  else if (gteId !== undefined) query = query.gte('id', gteId)
   const { data } = await query;
 
   const rawData = data as ({
