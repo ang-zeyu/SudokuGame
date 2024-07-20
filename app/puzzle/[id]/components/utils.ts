@@ -1,4 +1,4 @@
-import type { CellCoords, GridData } from "@/app/puzzle/[id]/components/types";
+import type { CellCoords, GridData } from "@/app/components/types";
 
 export function cloneGridWoErrors(grid: GridData): GridData {
   return grid.map(row => row.map(cell => ({...cell, error: false})));

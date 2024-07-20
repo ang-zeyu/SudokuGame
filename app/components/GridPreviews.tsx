@@ -1,6 +1,6 @@
 import { getGrids } from "@/api/grids";
 import Link from "next/link";
-import Grid from "@/app/puzzle/[id]/components/Grid";
+import Grid from "@/app/components/Grid";
 
 export default async function GridPreviews() {
   const grids = await getGrids();

@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Loading from "@/app/loading";
-import GridPreviews from "@/app/GridPreviews";
+import GridPreviews from "@/app/components/GridPreviews";
 
 export default function LandingPage() {
   return (

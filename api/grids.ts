@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import type { GridData } from "@/app/puzzle/[id]/components/types";
+import type { GridData } from "@/app/components/types";
 
 function rawPuzzleToGrid(puzzle: string) {
   const gridData: GridData = [[], [], [], [], [], [], [], [], []];

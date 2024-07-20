@@ -1,6 +1,6 @@
 'use client'
 
-import type { CellCoords, GridData } from "@/app/puzzle/[id]/components/types";
+import type { CellCoords, GridData } from "@/app/components/types";
 
 const Cell: React.FC<{
   previewMode?: boolean;

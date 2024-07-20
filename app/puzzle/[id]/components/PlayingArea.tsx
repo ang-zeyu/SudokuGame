@@ -1,16 +1,15 @@
 'use client'
 
-import Grid from "@/app/puzzle/[id]/components/Grid";
-import { oneToNine } from "@/app/puzzle/[id]/components/constants";
+import Grid from "@/app/components/Grid";
+import { oneToNine } from "@/app/components/constants";
 import {KeyboardEventHandler, useMemo, useState, useTransition} from "react";
-import type {CellCoords, GridData} from "@/app/puzzle/[id]/components/types";
+import type {CellCoords, GridData} from "@/app/components/types";
 import ResetButton from "@/app/puzzle/[id]/components/topButtons/ResetButton";
 import NextButton from "@/app/puzzle/[id]/components/topButtons/NextButton";
 import HomeButton from "@/app/puzzle/[id]/components/topButtons/HomeButton";
 import NumberButton from "@/app/puzzle/[id]/components/bottomButtons/NumberButton";
 import EraseButton from "@/app/puzzle/[id]/components/bottomButtons/EraseButton";
 import { cloneGridWoErrors, setGridErrors } from "@/app/puzzle/[id]/components/utils";
-import {useRouter} from "next/navigation";
 
 const PlayingArea: React.FC<{
   initialGrid: GridData;

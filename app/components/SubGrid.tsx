@@ -1,7 +1,7 @@
-import Cell from "@/app/puzzle/[id]/components/Cell";
+import Cell from "@/app/components/Cell";
 import React, { useMemo } from "react";
-import { zeroToEight } from "@/app/puzzle/[id]/components/constants";
-import type { CellCoords, GridData } from "@/app/puzzle/[id]/components/types";
+import { zeroToEight } from "@/app/components/constants";
+import type { CellCoords, GridData } from "@/app/components/types";
 
 const SubGrid: React.FC<{
   subGridNum: number;

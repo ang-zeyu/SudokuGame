@@ -1,6 +1,6 @@
-import SubGrid from "@/app/puzzle/[id]/components/SubGrid";
-import { zeroToEight } from "@/app/puzzle/[id]/components/constants";
-import type { CellCoords, GridData } from "@/app/puzzle/[id]/components/types";
+import SubGrid from "@/app/components/SubGrid";
+import { zeroToEight } from "@/app/components/constants";
+import type { CellCoords, GridData } from "@/app/components/types";
 
 const Grid: React.FC<{
   loading?: boolean;
